@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import useRequestData from "../../hooks/useRequestData";
 
+import { Post } from "./styles";
+
 const initialState = {
   text: "",
   title: "",
@@ -113,7 +115,7 @@ export default function FeedPage() {
         {postsList.length === 0 ? 'Carregando...' : postsList.map( (post, i) => {
             if ( i < 5 ) {
                 return (
-                    <div className="posts" key={post.id}>
+                    <Post key={post.id}>
                         <h3>{post.title}</h3>
                         <p>{post.text}</p>
                         <div>
@@ -126,7 +128,7 @@ export default function FeedPage() {
                                 <p>{post.commentsCount} comentários</p>
                             </div>
                         </div>
-                    </div>
+                    </Post>
                 )
             }
         })}

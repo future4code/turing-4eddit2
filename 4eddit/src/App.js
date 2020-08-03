@@ -8,6 +8,7 @@ function App() {
   return (
     <div className="App">
       <FeedPage />
+      <hr />
       <PostPage />
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useState } from "react";
 import axios from 'axios';
 
-import { VoteUP, VoteDown } from './styles';
+import { Post, VoteUP, VoteDown, CommentContainer } from './styles';
 
 const initialState = {
     text: "",
@@ -129,7 +129,7 @@ export default function PostPage() {
 
     return (
     <div className="PostPageContainer">
-        <div className="Post">
+        <Post>
             <h4>{post.username}</h4>
             <h3>{post.title}</h3>
             <p>{post.text}</p>
@@ -143,8 +143,7 @@ export default function PostPage() {
                     <p>{post.commentsCount} comentários</p>
                 </div>
             </div>
-        </div>
-        <hr />
+        </Post>
         <div className="Comments">
             <form className="AddComment" onSubmit={handleSubmit}>
             <textarea
@@ -158,13 +157,13 @@ export default function PostPage() {
                 type="Submit"
                 disabled={state.status === 'PENDING'}
             >
-                {state.status !== 'PENDING' ? 'Postar' : 'Postando'}
+                {state.status !== 'PENDING' ? 'Comentar' : 'Comentando'}
             </button>
             </form>
             {responseMessage()}
             {comments.length === 0 ? 'Carregando...' : comments.map( comment => {
                 return (
-                    <div className="Comments" key={comment.id}>
+                    <CommentContainer key={comment.id}>
                         <h5>{comment.username}</h5>
                         <p>{comment.text}</p>
                         <div>
@@ -172,7 +171,7 @@ export default function PostPage() {
                             <span>{comment.votesCount}</span>
                             <VoteDown voteDirection={comment.userVoteDirection} onClick={() => handleVote(comment.id, comment.userVoteDirection, "DOWN")}>Down</VoteDown>
                         </div>
-                    </div>
+                    </CommentContainer>
                 )
 
             })}
