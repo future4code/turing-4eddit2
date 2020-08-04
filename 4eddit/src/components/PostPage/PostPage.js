@@ -1,7 +1,9 @@
 import React, { useReducer, useEffect, useState } from "react";
 import axios from 'axios';
+import { useHistory, useParams } from 'react-router-dom';
+import useProtectedRoute from "../../hooks/useProtectedRoute";
 
-import { Post, VoteUP, VoteDown, CommentContainer } from './styles';
+import { PostContainer, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown, CommentContainer, AddCommentForm } from './styles';
 
 const initialState = {
     text: "",
@@ -18,23 +20,27 @@ const commentReducer = (state, action) => {
               return state
     }
 };
-
-const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
-
-const axiosConfig = {
-    headers: {
-        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlBsSFBLZkV1ZmJnc2duRzVnU1lNIiwidXNlcm5hbWUiOiJhbm5hIiwiZW1haWwiOiJhbm5hLmNiZkBnbWFpbC5jb20iLCJpYXQiOjE1OTY0NzQ0OTl9.43TaZ25rWa5I2eHYeJiAGlYf8lWR_6jga-BLIFCk4ug"
-    }
-};
-
-const postId= 'WCmBIGyynC5ihJFUmHFf';
   
 export default function PostPage() {
+    const history = useHistory();
+    const pathParams = useParams();
+    const postId = pathParams.id;
+    const token = useProtectedRoute();
 
+    const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
+
+    const axiosConfig = {
+        headers: {
+            Authorization: token
+        }
+    };
+    
     const [ comments, setComments ] = useState([]);
     const [ post, setpost ] = useState([]);
     
     const getPostDetails = async() => {
+        const postId = pathParams.id;
+        
         try {
             const response = await axios.get(`${baseUrl}/${postId}`, axiosConfig);
             setpost(response.data.post)
@@ -127,25 +133,29 @@ export default function PostPage() {
         }
     }
 
+    const goToHome = () => {
+      history.push("/");
+    }
+
+
     return (
-    <div className="PostPageContainer">
-        <Post>
-            <h4>{post.username}</h4>
-            <h3>{post.title}</h3>
-            <p>{post.text}</p>
-            <div>
-                <div>
-                    <button>Up</button>
-                    <span>{post.votesCount}</span>
-                    <button>Down</button>
-                </div>
-                <div>
-                    <p>{post.commentsCount} comentários</p>
-                </div>
-            </div>
-        </Post>
+    <PostContainer>
+        {post.id === "" ? 'Carregando...' : <Post key={post.id}>
+            <VoteBtnContainer>
+                <VoteBtn><ArrowUp /></VoteBtn>
+                <span> {post.votesCount} </span>
+                <VoteBtn><ArrowDown /></VoteBtn>
+            </VoteBtnContainer>
+            <PostText>
+                <h4>{post.username}</h4>
+                <h3>{post.title}</h3>
+                <p>{post.text}</p>
+                <p>{post.commentsCount} comentários</p>
+            </PostText>
+        </Post>}
         <div className="Comments">
-            <form className="AddComment" onSubmit={handleSubmit}>
+            <h4>Comentários</h4>
+            <AddCommentForm className="AddComment" onSubmit={handleSubmit}>
             <textarea
                 name="text"
                 onChange={e => updateFieldValue(e.target.name, e.target.value)}
@@ -159,24 +169,27 @@ export default function PostPage() {
             >
                 {state.status !== 'PENDING' ? 'Comentar' : 'Comentando'}
             </button>
-            </form>
+            </AddCommentForm>
             {responseMessage()}
-            {comments.length === 0 ? 'Carregando...' : comments.map( comment => {
+            {comments.length === 0 ? 'Seja o primeiro a comentar' : comments.map( comment => {
                 return (
                     <CommentContainer key={comment.id}>
-                        <h5>{comment.username}</h5>
-                        <p>{comment.text}</p>
-                        <div>
-                            <VoteUP voteDirection={comment.userVoteDirection} onClick={() => handleVote(comment.id, comment.userVoteDirection, "UP")}>Up</VoteUP>
+                        <VoteBtnContainer>
+                            <VoteBtn onClick={() => handleVote(comment.id, comment.userVoteDirection, "UP")}><ArrowUp voteDirection={comment.userVoteDirection} /></VoteBtn>
                             <span>{comment.votesCount}</span>
-                            <VoteDown voteDirection={comment.userVoteDirection} onClick={() => handleVote(comment.id, comment.userVoteDirection, "DOWN")}>Down</VoteDown>
-                        </div>
+                            <VoteBtn onClick={() => handleVote(comment.id, comment.userVoteDirection, "DOWN")}><ArrowDown voteDirection={comment.userVoteDirection}/></VoteBtn>
+                        </VoteBtnContainer>
+                        <PostText>
+                            <h5>{comment.username}</h5>
+                            <p>{comment.text.text}</p>
+                        </PostText>
                     </CommentContainer>
                 )
 
             })}
 
         </div>
-    </div>
+        <button onClick={goToHome}>voltar</button>
+    </PostContainer>
   );
 }

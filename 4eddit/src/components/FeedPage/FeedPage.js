@@ -1,9 +1,11 @@
 import React, { useReducer } from "react";
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import useRequestData from "../../hooks/useRequestData";
+import useProtectedRoute from "../../hooks/useProtectedRoute";
 
-import { Post } from "./styles";
+import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
 
 const initialState = {
   text: "",
@@ -22,16 +24,18 @@ const postReducer = (state, action) => {
     }
 };
 
-const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
-
-const axiosConfig = {
-    headers: {
-        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlBsSFBLZkV1ZmJnc2duRzVnU1lNIiwidXNlcm5hbWUiOiJhbm5hIiwiZW1haWwiOiJhbm5hLmNiZkBnbWFpbC5jb20iLCJpYXQiOjE1OTY0NzQ0OTl9.43TaZ25rWa5I2eHYeJiAGlYf8lWR_6jga-BLIFCk4ug"
-    }
-};
-
 export default function FeedPage() {
+    const history = useHistory();
     const { postsList, fetchData } = useRequestData();
+    const token = useProtectedRoute();
+
+    const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
+    
+    const axiosConfig = {
+        headers: {
+            Authorization: token
+        }
+    };
     
     const [state, dispatch] = useReducer(postReducer, initialState);
 
@@ -87,9 +91,14 @@ export default function FeedPage() {
         }
     }
 
+    const goToPost = id => {
+      history.push("/post/" + id);
+    }
+
     return (
-    <div className="App">
-        <form onSubmit={handleSubmit}>
+    <FeedContainer>
+        <h3>Novo Post</h3>
+        <AddPostForm onSubmit={handleSubmit}>
             <input 
                 name="title"
                 type="text"
@@ -110,28 +119,25 @@ export default function FeedPage() {
             >
                 {state.status !== 'PENDING' ? 'Postar' : 'Postando'}
             </button>
-        </form>
+        </AddPostForm>
+        <h3>Feed</h3>
         {responseMessage()}
         {postsList.length === 0 ? 'Carregando...' : postsList.map( (post, i) => {
-            if ( i < 5 ) {
-                return (
-                    <Post key={post.id}>
+            return (
+                <Post key={post.id}>
+                    <VoteBtnContainer>
+                        <VoteBtn><ArrowUp /></VoteBtn>
+                        <span> {post.votesCount} </span>
+                        <VoteBtn><ArrowDown /></VoteBtn>
+                    </VoteBtnContainer>
+                    <PostText onClick={() => goToPost(post.id)}>
                         <h3>{post.title}</h3>
                         <p>{post.text}</p>
-                        <div>
-                            <div>
-                                <button>Up</button>
-                                <span> {post.votesCount} </span>
-                                <button>Down</button>
-                            </div>
-                            <div>
-                                <p>{post.commentsCount} comentários</p>
-                            </div>
-                        </div>
-                    </Post>
-                )
-            }
+                        <p>{post.commentsCount} comentários</p>
+                    </PostText>
+                </Post>
+            )
         })}
-    </div>
+    </FeedContainer>
   );
 }
