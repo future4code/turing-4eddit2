@@ -1,21 +1,28 @@
 import React from 'react';
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import './App.css';
-
-import FeedPage from './components/FeedPage/FeedPage';
-import PostPage from './components/PostPage/PostPage';
-
-import { AppContainer } from './styles';
-import { GlobalStyle } from './globalStyles';
+import Cadastro from './components/Cadastro/Cadastro';
+import Login from './components/Login/Login';
+import GlobalStyle from './components/GlobalStyle/GlobalStyle'
 
 function App() {
-  return (
-    <AppContainer>
-      <GlobalStyle />
-      <FeedPage />
-      <hr />
-      <PostPage />
-    </AppContainer>
-  );
+  return <div>
+    <GlobalStyle />
+    <BrowserRouter>
+        <Switch>
+          <Route exact path="/cadastro">
+            <Cadastro
+
+            />
+          </Route>
+          <Route exact path="/login">
+            <Login 
+            />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </div>
+
 }
 
 export default App;
