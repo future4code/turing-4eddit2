@@ -45,6 +45,7 @@ export const PostText = styled.div `
     flex-direction: column;
     align-items: space-between;
     justify-content: center;
+    cursor: pointer;
 `
 
 export const VoteBtn = styled.button `

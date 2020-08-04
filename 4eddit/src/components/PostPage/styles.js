@@ -38,7 +38,6 @@ export const PostText = styled.div `
     padding: 16px;
     display: flex;
     flex-direction: column;
-    align-items: space-between;
     justify-content: center;
 `
 
@@ -72,7 +71,7 @@ export const ArrowDown = styled.div `
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     border-top: ${props => {
-        if (props.voteDirection === 1) {
+        if (props.voteDirection === -1) {
             return '8px solid red'
         } else {
             return '8px solid #878a8c'

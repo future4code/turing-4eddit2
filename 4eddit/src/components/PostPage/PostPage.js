@@ -1,5 +1,7 @@
 import React, { useReducer, useEffect, useState } from "react";
 import axios from 'axios';
+import { useHistory, useParams } from 'react-router-dom';
+import useProtectedRoute from "../../hooks/useProtectedRoute";
 
 import { PostContainer, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown, CommentContainer, AddCommentForm } from './styles';
 
@@ -18,23 +20,27 @@ const commentReducer = (state, action) => {
               return state
     }
 };
-
-const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
-
-const axiosConfig = {
-    headers: {
-        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlBsSFBLZkV1ZmJnc2duRzVnU1lNIiwidXNlcm5hbWUiOiJhbm5hIiwiZW1haWwiOiJhbm5hLmNiZkBnbWFpbC5jb20iLCJpYXQiOjE1OTY0NzQ0OTl9.43TaZ25rWa5I2eHYeJiAGlYf8lWR_6jga-BLIFCk4ug"
-    }
-};
-
-const postId= '1PHgGnDKHOwE2pap2GKE';
   
 export default function PostPage() {
+    const history = useHistory();
+    const pathParams = useParams();
+    const postId = pathParams.id;
+    const token = useProtectedRoute();
 
+    const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
+
+    const axiosConfig = {
+        headers: {
+            Authorization: token
+        }
+    };
+    
     const [ comments, setComments ] = useState([]);
     const [ post, setpost ] = useState([]);
     
     const getPostDetails = async() => {
+        const postId = pathParams.id;
+        
         try {
             const response = await axios.get(`${baseUrl}/${postId}`, axiosConfig);
             setpost(response.data.post)
@@ -127,6 +133,11 @@ export default function PostPage() {
         }
     }
 
+    const goToHome = () => {
+      history.push("/");
+    }
+
+
     return (
     <PostContainer>
         {post.id === "" ? 'Carregando...' : <Post key={post.id}>
@@ -161,7 +172,6 @@ export default function PostPage() {
             </AddCommentForm>
             {responseMessage()}
             {comments.length === 0 ? 'Seja o primeiro a comentar' : comments.map( comment => {
-                console.log(comment.username)
                 return (
                     <CommentContainer key={comment.id}>
                         <VoteBtnContainer>
@@ -179,6 +189,7 @@ export default function PostPage() {
             })}
 
         </div>
+        <button onClick={goToHome}>voltar</button>
     </PostContainer>
   );
 }
