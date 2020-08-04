@@ -52,7 +52,11 @@ export default function PostPage() {
     }
 
     useEffect(() => {
-        getPostDetails();
+        if(token === null) {
+          history.push("/login");
+        } else {
+            getPostDetails();
+        }
     }, []);
 
     const [state, dispatch] = useReducer(commentReducer, initialState);

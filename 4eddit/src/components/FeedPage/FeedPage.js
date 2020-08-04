@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
@@ -95,6 +95,12 @@ export default function FeedPage() {
       history.push("/post/" + id);
     }
 
+    useEffect(() => {
+      if(token === null) {
+        history.push("/login");
+      }
+    }, []);
+
     return (
     <FeedContainer>
         <h3>Novo Post</h3>
@@ -131,6 +137,7 @@ export default function FeedPage() {
                         <VoteBtn><ArrowDown /></VoteBtn>
                     </VoteBtnContainer>
                     <PostText onClick={() => goToPost(post.id)}>
+                        <h4>{post.username}</h4>
                         <h3>{post.title}</h3>
                         <p>{post.text}</p>
                         <p>{post.commentsCount} comentários</p>

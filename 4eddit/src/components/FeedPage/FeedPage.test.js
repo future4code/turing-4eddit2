@@ -24,7 +24,6 @@ describe('O formulário cria um novo post e os posts publicados aparecem na pág
   })
 })
 
-
 describe('Interação com botões dos posts', () => {
   test('As contagens de comentários e votos do post aparecem na tela', () => {
     
@@ -34,5 +33,14 @@ describe('Interação com botões dos posts', () => {
   })
   test('Ao votar down, diminui em 1 a contagem de votos', () => {
 
+  })
+})
+
+describe('Autenticação de usuários - algumas páginas só devem abrir para usuário logados', () => {
+  test('O token é identificado e permite acesso ao usuário', () => {
+    
+  })
+  test('Não há token salvo, o usuário não está logado e não pode ver as páginas de feed e post', () => {
+    
   })
 })
