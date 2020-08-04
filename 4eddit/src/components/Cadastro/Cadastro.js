@@ -89,7 +89,8 @@ const Cadastro = () => {
 
   return (
     <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="formCadastro">
+        <h1>Bem vindo ao 4eddit</h1>
           <input
             name='username' 
             type= 'text'
@@ -112,7 +113,7 @@ const Cadastro = () => {
             onChange={e => updateFieldValue(e.target.name, e.target.value)}
             placeholder="Digite uma senha" />
           <button type='submit' disabled={state.status === 'PENDING'}>
-            {state.status !== 'PENDING' ? 'Enviado' : 'Enviando...'}
+            {state.status !== 'PENDING' ? 'Enviar' : 'Enviando...'}
             </button>
         </form>
         {responseStatus()}

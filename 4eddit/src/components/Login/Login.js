@@ -86,8 +86,9 @@ const handleSubmit = (e) => {
   }
   
   return (
-    <div>
+    <div className="LoginFormDiv">
       <form onSubmit={handleSubmit} className="formLogin">
+        <h1>Bem vindo ao 4eddit</h1>
         <input 
           name='email' 
           type= 'text'
@@ -97,15 +98,13 @@ const handleSubmit = (e) => {
             placeholder='Digite seu email aqui' />
         <input
           name='password' 
-          type= 'text'
+          type= 'password'
           required
           value={state.password}
           onChange={e => updateFieldValue(e.target.name, e.target.value)}
           placeholder='Digite sua senha aqui' />
-          <div>
           <button>Entrar</button>
           <button onClick={irParaCadastro}>Cadastrar</button>
-        </div>
       </form>
       {responseStatus()}
      </div>
