@@ -5,6 +5,9 @@ import Cadastro from './components/Cadastro/Cadastro';
 import Login from './components/Login/Login';
 import GlobalStyle from './components/GlobalStyle/GlobalStyle'
 
+import FeedPage from './components/FeedPage/FeedPage';
+import PostPage from './components/PostPage/PostPage';
+
 function App() {
   return <div>
     <GlobalStyle />
