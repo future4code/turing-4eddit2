@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import useRequestData from "../../hooks/useRequestData";
 
-import { Post } from "./styles";
+import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
 
 const initialState = {
   text: "",
@@ -88,8 +88,9 @@ export default function FeedPage() {
     }
 
     return (
-    <div className="App">
-        <form onSubmit={handleSubmit}>
+    <FeedContainer>
+        <h3>Novo Post</h3>
+        <AddPostForm onSubmit={handleSubmit}>
             <input 
                 name="title"
                 type="text"
@@ -110,28 +111,27 @@ export default function FeedPage() {
             >
                 {state.status !== 'PENDING' ? 'Postar' : 'Postando'}
             </button>
-        </form>
+        </AddPostForm>
+        <h3>Feed</h3>
         {responseMessage()}
         {postsList.length === 0 ? 'Carregando...' : postsList.map( (post, i) => {
             if ( i < 5 ) {
                 return (
                     <Post key={post.id}>
-                        <h3>{post.title}</h3>
-                        <p>{post.text}</p>
-                        <div>
-                            <div>
-                                <button>Up</button>
-                                <span> {post.votesCount} </span>
-                                <button>Down</button>
-                            </div>
-                            <div>
-                                <p>{post.commentsCount} comentários</p>
-                            </div>
-                        </div>
+                        <VoteBtnContainer>
+                            <VoteBtn><ArrowUp /></VoteBtn>
+                            <span> {post.votesCount} </span>
+                            <VoteBtn><ArrowDown /></VoteBtn>
+                        </VoteBtnContainer>
+                        <PostText>
+                            <h3>{post.title}</h3>
+                            <p>{post.text}</p>
+                            <p>{post.commentsCount} comentários</p>
+                        </PostText>
                     </Post>
                 )
             }
         })}
-    </div>
+    </FeedContainer>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useState } from "react";
 import axios from 'axios';
 
-import { Post, VoteUP, VoteDown, CommentContainer } from './styles';
+import { PostContainer, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown, CommentContainer, AddCommentForm } from './styles';
 
 const initialState = {
     text: "",
@@ -27,7 +27,7 @@ const axiosConfig = {
     }
 };
 
-const postId= 'WCmBIGyynC5ihJFUmHFf';
+const postId= '1PHgGnDKHOwE2pap2GKE';
   
 export default function PostPage() {
 
@@ -128,24 +128,23 @@ export default function PostPage() {
     }
 
     return (
-    <div className="PostPageContainer">
-        <Post>
-            <h4>{post.username}</h4>
-            <h3>{post.title}</h3>
-            <p>{post.text}</p>
-            <div>
-                <div>
-                    <button>Up</button>
-                    <span>{post.votesCount}</span>
-                    <button>Down</button>
-                </div>
-                <div>
-                    <p>{post.commentsCount} comentários</p>
-                </div>
-            </div>
-        </Post>
+    <PostContainer>
+        {post.id === "" ? 'Carregando...' : <Post key={post.id}>
+            <VoteBtnContainer>
+                <VoteBtn><ArrowUp /></VoteBtn>
+                <span> {post.votesCount} </span>
+                <VoteBtn><ArrowDown /></VoteBtn>
+            </VoteBtnContainer>
+            <PostText>
+                <h4>{post.username}</h4>
+                <h3>{post.title}</h3>
+                <p>{post.text}</p>
+                <p>{post.commentsCount} comentários</p>
+            </PostText>
+        </Post>}
         <div className="Comments">
-            <form className="AddComment" onSubmit={handleSubmit}>
+            <h4>Comentários</h4>
+            <AddCommentForm className="AddComment" onSubmit={handleSubmit}>
             <textarea
                 name="text"
                 onChange={e => updateFieldValue(e.target.name, e.target.value)}
@@ -159,24 +158,27 @@ export default function PostPage() {
             >
                 {state.status !== 'PENDING' ? 'Comentar' : 'Comentando'}
             </button>
-            </form>
+            </AddCommentForm>
             {responseMessage()}
-            {comments.length === 0 ? 'Carregando...' : comments.map( comment => {
+            {comments.length === 0 ? 'Seja o primeiro a comentar' : comments.map( comment => {
+                console.log(comment.username)
                 return (
                     <CommentContainer key={comment.id}>
-                        <h5>{comment.username}</h5>
-                        <p>{comment.text}</p>
-                        <div>
-                            <VoteUP voteDirection={comment.userVoteDirection} onClick={() => handleVote(comment.id, comment.userVoteDirection, "UP")}>Up</VoteUP>
+                        <VoteBtnContainer>
+                            <VoteBtn onClick={() => handleVote(comment.id, comment.userVoteDirection, "UP")}><ArrowUp voteDirection={comment.userVoteDirection} /></VoteBtn>
                             <span>{comment.votesCount}</span>
-                            <VoteDown voteDirection={comment.userVoteDirection} onClick={() => handleVote(comment.id, comment.userVoteDirection, "DOWN")}>Down</VoteDown>
-                        </div>
+                            <VoteBtn onClick={() => handleVote(comment.id, comment.userVoteDirection, "DOWN")}><ArrowDown voteDirection={comment.userVoteDirection}/></VoteBtn>
+                        </VoteBtnContainer>
+                        <PostText>
+                            <h5>{comment.username}</h5>
+                            <p>{comment.text.text}</p>
+                        </PostText>
                     </CommentContainer>
                 )
 
             })}
 
         </div>
-    </div>
+    </PostContainer>
   );
 }
