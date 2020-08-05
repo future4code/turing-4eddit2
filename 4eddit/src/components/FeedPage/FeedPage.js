@@ -133,7 +133,8 @@ const FeedPage = () => {
                         <VoteBtn><ArrowDown /></VoteBtn>
                     </VoteBtnContainer>
                     <PostText onClick={() => goToPost(post.id)}>
-                        <h3>{post.title}</h3>
+                        <h4>{post.username}</h4>
+                        <h2>{post.title}</h2>
                         <p>{post.text}</p>
                         <p>{post.commentsCount} comentários</p>
                     </PostText>
