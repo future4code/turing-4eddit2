@@ -5,6 +5,8 @@ import useProtectedRoute from "../../hooks/useProtectedRoute";
 
 import { PostContainer, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown, CommentContainer, AddCommentForm } from './styles';
 
+import Header from "../Header/Header";
+
 const initialState = {
     text: "",
     status: 'UPDATE_FIELD_VALUE',
@@ -21,7 +23,7 @@ const commentReducer = (state, action) => {
     }
 };
   
-export default function PostPage() {
+const PostPage = () => {
     const history = useHistory();
     const pathParams = useParams();
     const postId = pathParams.id;
@@ -140,6 +142,7 @@ export default function PostPage() {
 
     return (
     <PostContainer>
+        <Header />
         {post.id === "" ? 'Carregando...' : <Post key={post.id}>
             <VoteBtnContainer>
                 <VoteBtn><ArrowUp /></VoteBtn>
@@ -148,13 +151,13 @@ export default function PostPage() {
             </VoteBtnContainer>
             <PostText>
                 <h4>{post.username}</h4>
-                <h3>{post.title}</h3>
+                <h1>{post.title}</h1>
                 <p>{post.text}</p>
                 <p>{post.commentsCount} comentários</p>
             </PostText>
         </Post>}
         <div className="Comments">
-            <h4>Comentários</h4>
+            <h2>Comentários</h2>
             <AddCommentForm className="AddComment" onSubmit={handleSubmit}>
             <textarea
                 name="text"
@@ -181,7 +184,7 @@ export default function PostPage() {
                         </VoteBtnContainer>
                         <PostText>
                             <h5>{comment.username}</h5>
-                            <p>{comment.text.text}</p>
+                            <p>{comment.text}</p>
                         </PostText>
                     </CommentContainer>
                 )
@@ -193,3 +196,5 @@ export default function PostPage() {
     </PostContainer>
   );
 }
+
+export default PostPage;

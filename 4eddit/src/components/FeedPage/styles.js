@@ -4,6 +4,7 @@ export const FeedContainer = styled.div `
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 144px;
 `
 
 export const AddPostForm = styled.form `
@@ -16,8 +17,8 @@ export const AddPostForm = styled.form `
 export const Post = styled.div `
     width: 400px;
     margin: 16px;
-    border-radius: 8px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+    border: 1px solid #00497F;
+    border-radius: 4px;
     background-color: #fff;
     display: grid;
     align-items: stretch;
@@ -36,7 +37,7 @@ export const VoteBtnContainer = styled.div `
     justify-content: flex-start;
     background-color: #f2f2f2;
     padding: 8px 4px;
-    border-radius: 8px 0 0 8px;
+    border-radius: 4px 0 0 4px;
 `
 
 export const PostText = styled.div `
@@ -49,6 +50,7 @@ export const PostText = styled.div `
 `
 
 export const VoteBtn = styled.button `
+    width: 16px;
     border: none;
     box-shadow: none;
     background-color: transparent;

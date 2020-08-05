@@ -2,6 +2,8 @@ import React, {useReducer } from 'react'
 import {useHistory} from 'react-router-dom'
 import api from '../Config/Config'
 
+import Header from '../Header/Header'
+
 const initialState = {
   id: '',
   email: '',
@@ -87,6 +89,7 @@ const handleSubmit = (e) => {
   
   return (
     <div className="LoginFormDiv">
+      <Header />
       <form onSubmit={handleSubmit} className="formLogin">
         <h1>Bem vindo ao 4eddit</h1>
         <input 
