@@ -38,6 +38,7 @@ const FeedPage = () => {
         }
     };
     
+
     const [state, dispatch] = useReducer(postReducer, initialState);
 
     const updateFieldValue = (field, value) => {
@@ -92,6 +93,34 @@ const FeedPage = () => {
         }
     }
 
+    const handleVote = (postId, userVoteDirection, voteDirection) => {
+        let vote;
+        if ( userVoteDirection === 1 || userVoteDirection === -1  ) {
+            vote = 0;
+        } else {
+            if ( voteDirection === "UP" ) {
+                vote = +1
+            } else {
+                vote = -1
+            }
+        }
+    
+        const body = {
+            "direction": vote
+        }
+            
+          axios.put(`${baseUrl}/${postId}/vote`, body, axiosConfig)
+          .then(response => {
+              console.log(response.data)
+            console.log(`${baseUrl}/${postId}/vote`, body, axiosConfig)
+            fetchData();
+          }) 
+        .catch(err => {
+            console.log(err.message)
+        }) 
+        
+    }
+
     const goToPost = id => {
       history.push("/post/" + id);
     }
@@ -128,9 +157,9 @@ const FeedPage = () => {
             return (
                 <Post key={post.id}>
                     <VoteBtnContainer>
-                        <VoteBtn><ArrowUp /></VoteBtn>
-                        <span> {post.votesCount} </span>
-                        <VoteBtn><ArrowDown /></VoteBtn>
+                    <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "UP")}><ArrowUp voteDirection={post.userVoteDirection} /></VoteBtn>
+                            <span>{post.votesCount}</span>
+                            <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
                     </VoteBtnContainer>
                     <PostText onClick={() => goToPost(post.id)}>
                         <h4>{post.username}</h4>
