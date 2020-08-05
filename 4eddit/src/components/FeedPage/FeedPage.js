@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import useRequestData from "../../hooks/useRequestData";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
+import Header from "../Header/Header";
 
 import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
 
@@ -24,7 +25,7 @@ const postReducer = (state, action) => {
     }
 };
 
-export default function FeedPage() {
+const FeedPage = () => {
     const history = useHistory();
     const { postsList, fetchData } = useRequestData();
     const token = useProtectedRoute();
@@ -97,7 +98,8 @@ export default function FeedPage() {
 
     return (
     <FeedContainer>
-        <h3>Novo Post</h3>
+        <Header />
+        <h1>Novo Post</h1>
         <AddPostForm onSubmit={handleSubmit}>
             <input 
                 name="title"
@@ -120,7 +122,7 @@ export default function FeedPage() {
                 {state.status !== 'PENDING' ? 'Postar' : 'Postando'}
             </button>
         </AddPostForm>
-        <h3>Feed</h3>
+        <h1>Feed</h1>
         {responseMessage()}
         {postsList.length === 0 ? 'Carregando...' : postsList.map( (post, i) => {
             return (
@@ -141,3 +143,5 @@ export default function FeedPage() {
     </FeedContainer>
   );
 }
+
+export default FeedPage
