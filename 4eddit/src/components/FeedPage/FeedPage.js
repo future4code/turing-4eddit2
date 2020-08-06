@@ -135,7 +135,8 @@ const FeedPage = () => {
 
     return (
     <FeedContainer>
-        <Header 
+        <Header
+            list={postsList} 
         />
         <h1>Novo Post</h1>
         <AddPostForm onSubmit={handleSubmit}>
