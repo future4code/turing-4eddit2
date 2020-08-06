@@ -1,8 +1,7 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-import useRequestData from "../../hooks/useRequestData";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 import Header from "../Header/Header";
 
@@ -27,7 +26,7 @@ const postReducer = (state, action) => {
 
 const FeedPage = () => {
     const history = useHistory();
-    const { postsList, fetchData } = useRequestData();
+    const [  postsList, setPostsList ]  = useState();
     const token = useProtectedRoute();
 
     const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
@@ -38,6 +37,14 @@ const FeedPage = () => {
         }
     };
     
+    const getPostsLists = async () => {
+        const response = await axios.get(baseUrl, axiosConfig);
+        setPostsList(response.data.posts)
+    }
+    
+    useEffect( () => {
+        getPostsLists();
+    }, [])
 
     const [state, dispatch] = useReducer(postReducer, initialState);
 
@@ -74,7 +81,7 @@ const FeedPage = () => {
                 await axios.post(`${baseUrl}`, body, axiosConfig);
 
                 updateStatus('SUCCESS');
-                fetchData();
+                getPostsLists();
             }
             catch(err) {
                 console.log(err)
@@ -95,6 +102,7 @@ const FeedPage = () => {
 
     const handleVote = (postId, userVoteDirection, voteDirection) => {
         let vote;
+
         if ( userVoteDirection === 1 || userVoteDirection === -1  ) {
             vote = 0;
         } else {
@@ -109,11 +117,9 @@ const FeedPage = () => {
             "direction": vote
         }
             
-          axios.put(`${baseUrl}/${postId}/vote`, body, axiosConfig)
-          .then(response => {
-              console.log(response.data)
-            console.log(`${baseUrl}/${postId}/vote`, body, axiosConfig)
-            fetchData();
+        axios.put(`${baseUrl}/${postId}/vote`, body, axiosConfig)
+          .then(() => {
+            getPostsLists();
           }) 
         .catch(err => {
             console.log(err.message)
@@ -154,13 +160,13 @@ const FeedPage = () => {
         </AddPostForm>
         <h1>Feed</h1>
         {responseMessage()}
-        {!postsList && postsList.length === 0 ? 'Carregando...' : postsList.map( (post, i) => {
+        {!postsList ? 'Carregando...' : postsList.map( (post, i) => {
             return (
                 <Post key={post.id} data-testid='post'>
                     <VoteBtnContainer>
                     <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "UP")}><ArrowUp voteDirection={post.userVoteDirection} /></VoteBtn>
-                            <span>{post.votesCount}</span>
-                            <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
+                        <span>{post.votesCount}</span>
+                        <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
                     </VoteBtnContainer>
                     <PostText onClick={() => goToPost(post.id)}>
                         <h4>{post.username}</h4>
