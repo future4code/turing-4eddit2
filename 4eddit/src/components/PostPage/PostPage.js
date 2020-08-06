@@ -109,6 +109,33 @@ const PostPage = () => {
         }
     }
 
+    const handleVotePost = (postId, userVoteDirection, voteDirection) => {
+        let vote;
+        
+        if ( userVoteDirection === 1 || userVoteDirection === -1  ) {
+            vote = 0;
+        } else {
+            if ( voteDirection === "UP" ) {
+                vote = +1
+            } else {
+                vote = -1
+            }
+        }
+    
+        const body = {
+            "direction": vote
+        }
+            
+          axios.put(`${baseUrl}/${postId}/vote`, body, axiosConfig)
+          .then(() => {
+            getPostDetails();
+          }) 
+        .catch(err => {
+            console.log(err.message)
+        }) 
+        
+    }
+    
     const handleVote = (commentId, userVoteDirection, voteDirection) => {
         let vote;
         const comment = commentId;
@@ -127,31 +154,28 @@ const PostPage = () => {
         }
             
           axios.put(`${baseUrl}/${postId}/comment/${comment}/vote`, body, axiosConfig)
-          .then(response => {
-              console.log(response.data)
-            console.log(`${baseUrl}/${postId}/comment/${comment}/vote`, body, axiosConfig)
+          .then(() => {
             getPostDetails();
           }) 
         .catch(err => {
             console.log(err.message)
         }) 
-        
     }
 
     const goToHome = () => {
       history.push("/");
     }
 
-
     return (
-    <PostContainer>
+    <PostContainer data-testid="post">
         <Header />
+        <p>teste</p>
         {post.id === "" ? 'Carregando...' : <Post key={post.id}>
             <VoteBtnContainer>
-                <VoteBtn><ArrowUp /></VoteBtn>
-                <span> {post.votesCount} </span>
-                <VoteBtn><ArrowDown /></VoteBtn>
-            </VoteBtnContainer>
+                <VoteBtn onClick={() => handleVotePost(post.id, post.userVoteDirection, "UP")}><ArrowUp voteDirection={post.userVoteDirection} /></VoteBtn>
+                <span>{post.votesCount}</span>
+                <VoteBtn onClick={() => handleVotePost(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
+                </VoteBtnContainer>
             <PostText>
                 <h4>{post.username}</h4>
                 <h1>{post.title}</h1>
@@ -159,7 +183,7 @@ const PostPage = () => {
                 <p>{post.commentsCount} comentários</p>
             </PostText>
         </Post>}
-        <div className="Comments">
+        <div className="Comments" data-testid='comentarios'>
             <h2>Comentários</h2>
             <AddCommentForm className="AddComment" onSubmit={handleSubmit}>
             <textarea
