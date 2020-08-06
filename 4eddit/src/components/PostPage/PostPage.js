@@ -109,7 +109,7 @@ const PostPage = () => {
         }
     }
 
-    const handleVote = async(commentId, userVoteDirection, voteDirection) => {
+    const handleVote = (commentId, userVoteDirection, voteDirection) => {
         let vote;
         const comment = commentId;
         if ( userVoteDirection === 1 || userVoteDirection === -1  ) {
@@ -126,13 +126,16 @@ const PostPage = () => {
             "direction": vote
         }
             
-        try {
-            await axios.put(`${baseUrl}/${postId}/comment/${comment}/vote`, body, axiosConfig);
+          axios.put(`${baseUrl}/${postId}/comment/${comment}/vote`, body, axiosConfig)
+          .then(response => {
+              console.log(response.data)
+            console.log(`${baseUrl}/${postId}/comment/${comment}/vote`, body, axiosConfig)
             getPostDetails();
-        }
-        catch(err) {
-            console.log(err)
-        }
+          }) 
+        .catch(err => {
+            console.log(err.message)
+        }) 
+        
     }
 
     const goToHome = () => {
