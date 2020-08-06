@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import { useHistory } from 'react-router-dom';
 import useProtectRouter from '../../hooks/useProtectedRoute'
-import { HeaderContainer, Logo, SmallButton } from './styles';
+import { HeaderContainer, Logo, SmallButton, SearchFilter, ResultsContainer, ResultsPost } from './styles';
 import logo from '../../images/logo-reddit.png';
 
 
@@ -14,10 +14,6 @@ const Header = (props) => {
         history.push("/");
     }
 
-    const goToLogin = () => {
-    history.push("/login");
-    }
-
     async function logout (e) {
         e.preventDefault()
             await localStorage.removeItem('token', token)
@@ -25,23 +21,56 @@ const Header = (props) => {
             history.push('/login')
     }
 
+    const [ searchInput, setSearchInput ] = useState('');
+
+    const handleChangeInput = event => {
+        setSearchInput(event.target.value)
+    }
+
+    const handleLiveSearch = () => {
+
+        if (searchInput.length > 2 && !props.list) {
+            return <ResultsContainer><h5>buscando...</h5></ResultsContainer>
+        } 
+        
+        if (searchInput.length > 2 && props.list) {
+            
+            let results = props.list.map( post => {
+                if( post.text.includes(searchInput) || post.title.includes(searchInput) || post.username.includes(searchInput)  ) {
+                    return <ResultsPost>
+                            <h5>{post.username}</h5>
+                            <h4>{post.title}</h4>
+                            <p>{post.text}</p>
+                            </ResultsPost>
+                        }
+                    
+            })
+
+            console.log(results[0])
+            return <ResultsContainer>
+                <h4>Resultado da busca:</h4>
+                {results}
+                {!results[0] && <p>Nada encontrado.</p>}
+            </ResultsContainer>
+        }
+    }
 
     return (
-        <div>
-    <HeaderContainer>
+        <>
+            <HeaderContainer>
+                <Logo src={logo} alt="Logo do site" onClick={goToHome}/>
+                <SearchFilter>
+                    <input value={searchInput} placeholder="Busca" onChange={handleChangeInput}></input>
+                    <SmallButton>Buscar</SmallButton>
+                    {handleLiveSearch()}
 
-        <Logo src={logo} alt="Logo do site" onClick={goToHome}/>
-        <div className="search-filter">
-            <input placeholder="Busca" onChange={''}></input>
-            <SmallButton >Buscar</SmallButton>
-        </div>
-        {!islogged && ( 
-        <SmallButton onClick={logout}>logout</SmallButton>
-        )}
- 
-    </HeaderContainer>
-            
-    </div>
+                </SearchFilter>
+                {!islogged && ( 
+                <SmallButton onClick={logout}>logout</SmallButton>
+                )}
+            </HeaderContainer>
+
+        </>
   );
 }
 

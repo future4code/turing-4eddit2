@@ -9,7 +9,7 @@ export const HeaderContainer = styled.div `
     background-color: #fff;
 
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     box-shadow: 10px -6px 21px 2px rgba(0,73,127,0.54);
 `
@@ -20,4 +20,28 @@ export const Logo = styled.img `
 
 export const SmallButton = styled.button `
     width: 80px;
+`
+
+export const SearchFilter = styled.div `
+    max-width: 500px;
+    position: relative;
+
+    @media (max-width: 500px ) {
+        width: 100%;
+    };
+`
+
+export const ResultsContainer = styled.div `
+    width: 100%;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    padding: 16px;
+    background-color: #fff;
+`
+
+export const ResultsPost = styled.div `
+    margin: 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #00497F;
 `
