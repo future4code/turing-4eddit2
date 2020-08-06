@@ -10,7 +10,7 @@ import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, 
 const initialState = {
   text: "",
   title: "",
-  status: 'UPDATE_FIELD_VALUE'
+  status: 'UPDATE_FIELD_VALUE',
 };
 
 const postReducer = (state, action) => {
@@ -26,7 +26,7 @@ const postReducer = (state, action) => {
 
 const FeedPage = () => {
     const history = useHistory();
-    const [  postsList, setPostsList ]  = useState();
+    const [  postsList, setPostsList]  = useState();
     const token = useProtectedRoute();
 
     const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
@@ -57,6 +57,8 @@ const FeedPage = () => {
             }
          })
     }
+
+
 
     const updateStatus = status => {
         dispatch({
@@ -133,7 +135,8 @@ const FeedPage = () => {
 
     return (
     <FeedContainer>
-        <Header />
+        <Header 
+        />
         <h1>Novo Post</h1>
         <AddPostForm onSubmit={handleSubmit}>
             <input 
