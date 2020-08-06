@@ -46,7 +46,6 @@ const Header = (props) => {
                     
             })
 
-            console.log(results[0])
             return <ResultsContainer>
                 <h4>Resultado da busca:</h4>
                 {results}
