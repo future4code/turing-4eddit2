@@ -15,19 +15,21 @@ function App() {
     <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            <FeedPage />
+            <FeedPage data-testid='feed' />
           </Route>
           <Route exact path="/cadastro">
-            <Cadastro
+            <Cadastro 
+              data-testid='cadastro'
 
             />
           </Route>
           <Route exact path="/login">
             <Login 
+              data-testid='login'
             />
           </Route>
           <Route exact path="/post/:id">
-            <PostPage />
+            <PostPage data-testid='post-page' />
           </Route>
         </Switch>
       </BrowserRouter>

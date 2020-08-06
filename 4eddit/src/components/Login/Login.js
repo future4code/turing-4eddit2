@@ -49,20 +49,19 @@ const Login = () => {
 const handleSubmit = (e) => {
   e.preventDefault()
   const body = {
-    id: state.id,
-    token: state.token,
+    // id: state.id,
+    // token: state.token,
     email: state.email,
     password: state.password,
-    username: state.username
   }
     updateStatus('PENDING')
     setTimeout(async() => {
       try {
-        const response = await api.post('/login', body)
+        const response = await api.post('https://us-central1-labenu-apis.cloudfunctions.net/labEddit/login', body)
         updateStatus('SUCCESS')
         window.localStorage.setItem('token', response.data.token)
-        history.push('/') 
-        console.log(response.data.user)
+        history.push('/')
+        console.log(response)
       }
       catch(error){
         console.log(error.message)

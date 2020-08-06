@@ -112,6 +112,7 @@ const FeedPage = () => {
                 name="text"
                 onChange={e => updateFieldValue(e.target.name, e.target.value)}
                 value={state.text}
+                placeholder="Escreva seu texto"
             >
                 Escreva seu post
             </textarea>
@@ -124,9 +125,9 @@ const FeedPage = () => {
         </AddPostForm>
         <h1>Feed</h1>
         {responseMessage()}
-        {postsList.length === 0 ? 'Carregando...' : postsList.map( (post, i) => {
+        {!postsList && postsList.length === 0 ? 'Carregando...' : postsList.map( (post, i) => {
             return (
-                <Post key={post.id}>
+                <Post key={post.id} data-testid='post'>
                     <VoteBtnContainer>
                         <VoteBtn><ArrowUp /></VoteBtn>
                         <span> {post.votesCount} </span>

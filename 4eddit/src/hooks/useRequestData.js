@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
 
 const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
@@ -10,7 +11,7 @@ const axiosConfig = {
 };
 
 const useRequestData = () => {
-    
+    const history = useHistory();
     const [postsList, setTasksList] = useState([]);
 
     const fetchData = async () => {
@@ -20,7 +21,7 @@ const useRequestData = () => {
     
     useEffect( () => {
         fetchData();
-    }, [])
+    }, [history])
     
     return { postsList, fetchData };
 };

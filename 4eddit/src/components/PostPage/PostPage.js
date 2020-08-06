@@ -141,8 +141,9 @@ const PostPage = () => {
 
 
     return (
-    <PostContainer>
+    <PostContainer data-testid="post">
         <Header />
+        <p>teste</p>
         {post.id === "" ? 'Carregando...' : <Post key={post.id}>
             <VoteBtnContainer>
                 <VoteBtn><ArrowUp /></VoteBtn>
@@ -156,7 +157,7 @@ const PostPage = () => {
                 <p>{post.commentsCount} comentários</p>
             </PostText>
         </Post>}
-        <div className="Comments">
+        <div className="Comments" data-testid='comentarios'>
             <h2>Comentários</h2>
             <AddCommentForm className="AddComment" onSubmit={handleSubmit}>
             <textarea
