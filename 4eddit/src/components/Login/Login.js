@@ -5,10 +5,8 @@ import api from '../Config/Config'
 import Header from '../Header/Header'
 
 const initialState = {
-  id: '',
   email: '',
   password: '',
-  token: '',
   status: 'UPDATE_VALUE'
 }
 
@@ -49,8 +47,6 @@ const Login = () => {
 const handleSubmit = (e) => {
   e.preventDefault()
   const body = {
-    // id: state.id,
-    // token: state.token,
     email: state.email,
     password: state.password,
   }
@@ -61,7 +57,6 @@ const handleSubmit = (e) => {
         updateStatus('SUCCESS')
         window.localStorage.setItem('token', response.data.token)
         history.push('/')
-        console.log(response)
       }
       catch(error){
         console.log(error.message)
