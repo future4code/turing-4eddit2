@@ -1,13 +1,13 @@
 import React from "react";
 
-import { FeedFiltersContainer, SmallButton } from "./styles";
+import { FeedFiltersContainer, SmallButtonNewest, SmallButtonOldest } from "./styles";
 
 const FeedFilters = (props) => {
 
     return (
     <FeedFiltersContainer>
-      <SmallButton onClick={props.newestFirst}>Mais recentes</SmallButton>
-      <SmallButton onClick={props.oldestFirst}>Mais antigos</SmallButton>
+      <SmallButtonNewest onClick={props.newestFirst} active={props.orderList}>Mais recentes</SmallButtonNewest>
+      <SmallButtonOldest onClick={props.oldestFirst} active={props.orderList}>Mais antigos</SmallButtonOldest>
     </FeedFiltersContainer>
   );
 }

@@ -68,6 +68,7 @@ const GlobalStyle = createGlobalStyle`
       background: #FFF;
       color: #00497F;
       font-weight: 700;
+      cursor: pointer;
       :hover {
         background: #00497F;
         color: #FFF;

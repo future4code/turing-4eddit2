@@ -8,10 +8,9 @@ const Sidebar = (props) => {
 
     if( props.list ) {
         mostVoted = props.list.sort((a, b) => {
-            return b.votesCount - a.commentsCount ;
-        })
-    
-        mostCommented = props.list.sort((a, b) => {
+            return b.votesCount - a.votesCount ;
+        });
+        mostCommented = props.list.map((a, b) => {
             return b.commentsCount - a.commentsCount;
         })
     } else {

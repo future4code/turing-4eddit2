@@ -27,7 +27,6 @@ const FeedPage = () => {
     const getPostsLists = async () => {
         const response = await axios.get(baseUrl, axiosConfig);
         setPostsList(response.data.posts);
-        oldestFirst();
     }
     
     useEffect( () => {
@@ -62,29 +61,31 @@ const FeedPage = () => {
     }
 
     const goToPost = id => {
-        console.log("öi")
       history.push("/post/" + id);
     }
 
-    const [ orderLatest, setOrderLatest ] = useState('newest')
+    const [ orderList, setOrderList ] = useState('newest')
+    
     let filteredPosts = postsList;
-  
-    const oldestFirst = () => {
-        setOrderLatest('oldest')
-        if (postsList) {
-            filteredPosts = filteredPosts.sort((a, b) => {
-                return new Date(a.createdAt) - new Date(b.createdAt);
-            })
-        }  
+    
+    if (postsList && orderList === 'newest') {
+        filteredPosts = filteredPosts.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        })
+    }
+    
+    if (postsList && orderList === 'oldest') {
+        filteredPosts = filteredPosts.sort((a, b) => {
+            return new Date(a.createdAt) - new Date(b.createdAt);
+        })
     }
 
     const newestFirst = () => {
-        setOrderLatest('newest')
-        if (postsList) {
-            filteredPosts = filteredPosts.sort((a, b) => {
-                return new Date(b.createdAt) - new Date(a.createdAt);
-            })
-        }    
+        setOrderList('newest')
+    }
+
+    const oldestFirst = () => {
+        setOrderList('oldest')
     }
 
     const formatDate = date => {
@@ -101,8 +102,8 @@ const FeedPage = () => {
         <h1>Novo Post</h1>
             <AddPost getPostsLists={getPostsLists} />
             <h1>Feed</h1>
-            <FeedFilters newestFirst={newestFirst} oldestFirst={oldestFirst} orderLatest={orderLatest} />
-            {!postsList ? 'Carregando...' : filteredPosts.map( (post, i) => {
+            <FeedFilters newestFirst={newestFirst} oldestFirst={oldestFirst} orderList={orderList} />
+            {!postsList ? 'Carregando...' : filteredPosts.map( post => {
                 return (
                     <Post key={post.id} data-testid='post'>
                         <VoteBtnContainer>
