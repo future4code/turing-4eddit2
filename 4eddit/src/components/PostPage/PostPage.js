@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useState } from "react";
 import axios from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
 import useProtectedRoute from "../../hooks/useProtectedRoute";
-
+import Share from '../Share/Share'
 import { PostContainer, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown, CommentContainer, AddCommentForm } from './styles';
 
 import Header from "../Header/Header";
@@ -212,6 +212,11 @@ const PostPage = () => {
                             <h5>{comment.username}</h5>
                             <p>{comment.text}</p>
                         </PostText>
+                       <Share 
+                       key = {comment.id}
+                        comment = {comment.text}
+                        username = {comment.username}
+                       />
                     </CommentContainer>
                 )
 
