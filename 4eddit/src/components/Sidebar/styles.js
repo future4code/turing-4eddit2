@@ -28,6 +28,7 @@ export const Post = styled.div `
 export const PostsTitle = styled.h3 `
     width: 100%;
     padding: 16px;
+    margin: 0;
     background-color: #00497F;
     color: #fff;
     border-radius: 4px 4px 0 0;

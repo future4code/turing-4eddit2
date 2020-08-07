@@ -9,6 +9,20 @@ const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
   outline: none;
 }
+  .share-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .share-button button{
+    margin: 0 4px;
+    width: 40px;
+    height: 40px;
+
+    :first-of-type {
+      margin-left: 0;
+    }
+  }
   .formLogin, .formCadastro {
     border: 1px solid #00497F;
     box-shadow: 10px -6px 21px 2px rgba(0,73,127,0.54);
@@ -50,6 +64,10 @@ const GlobalStyle = createGlobalStyle`
       border: 1px solid #00497F;
       border-radius: 4px;
       margin: 4px;
+
+      @media (max-width: 500px) {
+        width: 100%;
+      }
     }
     textarea {
       width: 400px;
@@ -58,6 +76,10 @@ const GlobalStyle = createGlobalStyle`
       border: 1px solid #00497F;
       border-radius: 4px;
       margin: 4px;
+
+      @media (max-width: 500px) {
+        width: 100%;
+      }
     }
     button {
       width: 404px;
@@ -73,6 +95,10 @@ const GlobalStyle = createGlobalStyle`
       :hover {
         background: #00497F;
         color: #FFF;
+      }
+
+      @media (max-width: 500px) {
+        width: 100%;
       }
     }
     .aws-btn {

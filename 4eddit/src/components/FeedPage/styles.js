@@ -7,6 +7,10 @@ export const FeedContainer = styled.div `
     align-items: flex-start;
     justify-items: center;
     padding-top: 144px;
+
+    @media (max-width: 500px) {
+        display: block;
+    }
 `
 
 export const MainContent = styled.div `

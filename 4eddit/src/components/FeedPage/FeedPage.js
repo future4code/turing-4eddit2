@@ -5,13 +5,10 @@ import { useHistory } from 'react-router-dom';
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 import Header from "../Header/Header";
 import Share from '../Share/Share'
-import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
+import { FeedContainer, AddPostForm, MainContent, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
 import AddPost from "../AddPost/AddPost";
 import FeedFilters from "../FeedFilters/FeedFilters";
 import Sidebar from "../Sidebar/Sidebar";
-
-import { FeedContainer, MainContent, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
-import Share from "../Share";
 
 const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
 
@@ -114,12 +111,12 @@ const FeedPage = () => {
                             <span>{post.votesCount}</span>
                             <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
                         </VoteBtnContainer>
-                        <PostText onClick={() => goToPost(post.id)}>
+                        <PostText>
                             <h5>{formatDate(post.createdAt)}</h5>
                             <h4>{post.username}</h4>
-                            <h3>{post.title}</h3>
-                            <p>{post.text}</p>
-                            <p>{post.commentsCount} comentários</p>
+                            <h3  onClick={() => goToPost(post.id)}>{post.title}</h3>
+                            <p  onClick={() => goToPost(post.id)}>{post.text}</p>
+                            <p  onClick={() => goToPost(post.id)}>{post.commentsCount} comentários</p>
                             <Share />
                         </PostText>
                     </Post>

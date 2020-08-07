@@ -211,12 +211,12 @@ const PostPage = () => {
                         <PostText>
                             <h5>{comment.username}</h5>
                             <p>{comment.text}</p>
+                            <Share 
+                            key = {comment.id}
+                                comment = {comment.text}
+                                username = {comment.username}
+                            />
                         </PostText>
-                       <Share 
-                       key = {comment.id}
-                        comment = {comment.text}
-                        username = {comment.username}
-                       />
                     </CommentContainer>
                 )
 
