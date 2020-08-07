@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 import Header from "../Header/Header";
+import Share from '../Share/Share'
+import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
 import AddPost from "../AddPost/AddPost";
 import FeedFilters from "../FeedFilters/FeedFilters";
 import Sidebar from "../Sidebar/Sidebar";
