@@ -4,19 +4,22 @@ import { useHistory } from 'react-router-dom';
 
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 import Header from "../Header/Header";
+import Share from '../Share/Share'
+import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
 import AddPost from "../AddPost/AddPost";
 import FeedFilters from "../FeedFilters/FeedFilters";
 import Sidebar from "../Sidebar/Sidebar";
 
 import { FeedContainer, MainContent, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
+import Share from "../Share";
 
+const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
 
 const FeedPage = () => {
     const history = useHistory();
     const [  postsList, setPostsList ]  = useState();
     const token = useProtectedRoute();
 
-    const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
     
     const axiosConfig = {
         headers: {
@@ -116,6 +119,7 @@ const FeedPage = () => {
                             <h3>{post.title}</h3>
                             <p>{post.text}</p>
                             <p>{post.commentsCount} comentários</p>
+                            <Share />
                         </PostText>
                     </Post>
                 )
