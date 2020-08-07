@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 import Header from "../Header/Header";
-
+import Share from '../Share/Share'
 import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
 
 const initialState = {
@@ -178,6 +178,12 @@ const FeedPage = () => {
                         <p>{post.text}</p>
                         <p>{post.commentsCount} comentários</p>
                     </PostText>
+                    <Share key={post.id} 
+                        username = {post.username}
+                        title = {post.title}
+                        text = {post.text}
+                        comentario = {post.commentsCount}
+                    />
                 </Post>
             )
         })}
