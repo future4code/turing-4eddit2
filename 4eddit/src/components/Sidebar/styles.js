@@ -6,6 +6,7 @@ export const SidebarContainer = styled.div `
 `
 
 export const PostContainer = styled.div `
+    width: 100%;
     background-color: #fff;
     border-radius: 4px;
     border-top: 1px solid #00497F;
