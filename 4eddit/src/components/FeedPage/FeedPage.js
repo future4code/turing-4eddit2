@@ -5,13 +5,10 @@ import { useHistory } from 'react-router-dom';
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 import Header from "../Header/Header";
 import Share from '../Share/Share'
-import { FeedContainer, AddPostForm, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
+import { FeedContainer, AddPostForm, MainContent, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
 import AddPost from "../AddPost/AddPost";
 import FeedFilters from "../FeedFilters/FeedFilters";
 import Sidebar from "../Sidebar/Sidebar";
-
-import { FeedContainer, MainContent, Post, VoteBtnContainer, PostText, VoteBtn, ArrowUp, ArrowDown } from "./styles";
-import Share from "../Share";
 
 const baseUrl = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts'
 
@@ -30,7 +27,6 @@ const FeedPage = () => {
     const getPostsLists = async () => {
         const response = await axios.get(baseUrl, axiosConfig);
         setPostsList(response.data.posts);
-        oldestFirst();
     }
     
     useEffect( () => {
@@ -65,29 +61,31 @@ const FeedPage = () => {
     }
 
     const goToPost = id => {
-        console.log("öi")
       history.push("/post/" + id);
     }
 
-    const [ orderLatest, setOrderLatest ] = useState('newest')
+    const [ orderList, setOrderList ] = useState('newest')
+    
     let filteredPosts = postsList;
-  
-    const oldestFirst = () => {
-        setOrderLatest('oldest')
-        if (postsList) {
-            filteredPosts = filteredPosts.sort((a, b) => {
-                return new Date(a.createdAt) - new Date(b.createdAt);
-            })
-        }  
+    
+    if (postsList && orderList === 'newest') {
+        filteredPosts = filteredPosts.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        })
+    }
+    
+    if (postsList && orderList === 'oldest') {
+        filteredPosts = filteredPosts.sort((a, b) => {
+            return new Date(a.createdAt) - new Date(b.createdAt);
+        })
     }
 
     const newestFirst = () => {
-        setOrderLatest('newest')
-        if (postsList) {
-            filteredPosts = filteredPosts.sort((a, b) => {
-                return new Date(b.createdAt) - new Date(a.createdAt);
-            })
-        }    
+        setOrderList('newest')
+    }
+
+    const oldestFirst = () => {
+        setOrderList('oldest')
     }
 
     const formatDate = date => {
@@ -104,8 +102,8 @@ const FeedPage = () => {
         <h1>Novo Post</h1>
             <AddPost getPostsLists={getPostsLists} />
             <h1>Feed</h1>
-            <FeedFilters newestFirst={newestFirst} oldestFirst={oldestFirst} orderLatest={orderLatest} />
-            {!postsList ? 'Carregando...' : filteredPosts.map( (post, i) => {
+            <FeedFilters newestFirst={newestFirst} oldestFirst={oldestFirst} orderList={orderList} />
+            {!postsList ? 'Carregando...' : filteredPosts.map( post => {
                 return (
                     <Post key={post.id} data-testid='post'>
                         <VoteBtnContainer>
@@ -113,12 +111,12 @@ const FeedPage = () => {
                             <span>{post.votesCount}</span>
                             <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
                         </VoteBtnContainer>
-                        <PostText onClick={() => goToPost(post.id)}>
+                        <PostText>
                             <h5>{formatDate(post.createdAt)}</h5>
                             <h4>{post.username}</h4>
-                            <h3>{post.title}</h3>
-                            <p>{post.text}</p>
-                            <p>{post.commentsCount} comentários</p>
+                            <h3  onClick={() => goToPost(post.id)}>{post.title}</h3>
+                            <p  onClick={() => goToPost(post.id)}>{post.text}</p>
+                            <p  onClick={() => goToPost(post.id)}>{post.commentsCount} comentários</p>
                             <Share />
                         </PostText>
                     </Post>

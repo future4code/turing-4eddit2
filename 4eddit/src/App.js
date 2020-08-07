@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import './App.css';
 import Cadastro from './components/Cadastro/Cadastro';
@@ -15,11 +15,11 @@ function App() {
     <GlobalStyle />
     <BrowserRouter>
         <Switch>
-          <Route exact path="/">
-            <FeedPage 
-              data-testid='feed' 
-            />
-          </Route>
+            <Route exact path="/">
+              <FeedPage 
+                data-testid='feed' 
+              />
+            </Route>
           <Route exact path="/cadastro">
             <Cadastro 
               data-testid='cadastro'

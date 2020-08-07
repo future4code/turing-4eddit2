@@ -7,12 +7,17 @@ export const HeaderContainer = styled.div `
     top: 0;
     left: 0;
     right: 0;
+    z-index: 9;
     background-color: #fff;
 
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     box-shadow: 10px -6px 21px 2px rgba(0,73,127,0.54);
+
+    @media (max-width: 500px) {
+        padding: 8px;
+    }
 `
 
 export const Logo = styled.img `

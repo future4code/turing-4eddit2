@@ -7,7 +7,40 @@ export const FeedFiltersContainer = styled.div `
     justify-content: center;
 `
 
-export const SmallButton = styled.button `
+export const SmallButtonOldest = styled.button `
     width: 120px;
     margin: 8px;
+    background-color: ${props => {
+        if(props.active === 'oldest') {
+            return '#00497F'
+        } else {
+            return '#fff'
+        }
+    }};
+    color: ${props => {
+        if(props.active === 'oldest') {
+            return '#fff'
+        } else {
+            return '#00497F'
+        }
+    }}
+`
+
+export const SmallButtonNewest = styled.button `
+    width: 120px;
+    margin: 8px;
+    background-color: ${props => {
+        if(props.active === 'newest') {
+            return '#00497F'
+        } else {
+            return '#fff'
+        }
+    }};
+    color: ${props => {
+        if(props.active === 'newest') {
+            return '#fff'
+        } else {
+            return '#00497F'
+        }
+    }}
 `

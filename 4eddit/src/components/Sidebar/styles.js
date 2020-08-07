@@ -6,6 +6,7 @@ export const SidebarContainer = styled.div `
 `
 
 export const PostContainer = styled.div `
+    width: 100%;
     background-color: #fff;
     border-radius: 4px;
     border-top: 1px solid #00497F;
@@ -28,6 +29,7 @@ export const Post = styled.div `
 export const PostsTitle = styled.h3 `
     width: 100%;
     padding: 16px;
+    margin: 0;
     background-color: #00497F;
     color: #fff;
     border-radius: 4px 4px 0 0;
