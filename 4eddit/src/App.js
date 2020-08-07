@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import './App.css';
 import Cadastro from './components/Cadastro/Cadastro';

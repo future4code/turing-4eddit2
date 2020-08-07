@@ -2,14 +2,17 @@ import styled from 'styled-components';
 
 
 export const PostContainer = styled.div `
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 144px;
+    padding-bottom: 24px;
 `
 
+
 export const Post = styled.div `
-    width: 400px;
+    width: 100%;
     margin: 16px;
     border: 1px solid #00497F;
     border-radius: 4px;
@@ -82,7 +85,7 @@ export const ArrowDown = styled.div `
 `
 
 export const CommentContainer = styled.div `
-    width: 400px;
+    width: 100%;
     margin: 16px auto;
     border: 1px solid #00497F;
     border-radius: 4px;

@@ -21,13 +21,25 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
     background: #FFF;
   }
-    h1, h2 {
+    h1, h2, h3, h4, h5, h6 {
       color: #00497F;
     }
     
     h2 {
       margin-top: 32px;
       padding: 8px;
+    }
+
+    h3, p {
+      padding: 8px 0;
+    }
+    
+    h4, h5, h6 {
+      padding: 4px 0;
+    }
+    
+    h5, h6 {
+      font-weight: 400
     }
 
     input {

@@ -1,22 +1,24 @@
 import styled from 'styled-components';
 
 export const FeedContainer = styled.div `
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 1024px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: flex-start;
+    justify-items: center;
     padding-top: 144px;
 `
 
-export const AddPostForm = styled.form `
+export const MainContent = styled.div `
+    max-width: 640px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 24px 0;
 `
 
 export const Post = styled.div `
-    width: 400px;
-    margin: 16px;
+    width: 100%;
+    margin: 8px 16px;
     border: 1px solid #00497F;
     border-radius: 4px;
     background-color: #fff;

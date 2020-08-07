@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.div `
+    max-width: 100%;
     padding: 16px;
     position: fixed;
     top: 0;
@@ -15,7 +16,8 @@ export const HeaderContainer = styled.div `
 `
 
 export const Logo = styled.img `
-    height: 40px;
+    height: 56px;
+    cursor: pointer;
 `
 
 export const SmallButton = styled.button `
