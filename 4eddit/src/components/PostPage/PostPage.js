@@ -169,7 +169,6 @@ const PostPage = () => {
     return (
     <PostContainer data-testid="post">
         <Header />
-        <p>teste</p>
         {post.id === "" ? 'Carregando...' : <Post key={post.id}>
             <VoteBtnContainer>
                 <VoteBtn onClick={() => handleVotePost(post.id, post.userVoteDirection, "UP")}><ArrowUp voteDirection={post.userVoteDirection} /></VoteBtn>

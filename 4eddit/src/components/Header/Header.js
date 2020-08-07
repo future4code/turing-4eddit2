@@ -37,7 +37,7 @@ const Header = (props) => {
             
             let results = props.list.map( post => {
                 if( post.text.includes(searchInput) || post.title.includes(searchInput) || post.username.includes(searchInput)  ) {
-                    return <ResultsPost>
+                    return <ResultsPost key={post.id}>
                             <h5>{post.username}</h5>
                             <h4>{post.title}</h4>
                             <p>{post.text}</p>
@@ -49,7 +49,7 @@ const Header = (props) => {
             return <ResultsContainer>
                 <h4>Resultado da busca:</h4>
                 {results}
-                {!results[0] && <p>Nada encontrado.</p>}
+                {results.length === 0 && <p>Nada encontrado.</p>}
             </ResultsContainer>
         }
     }
