@@ -35,26 +35,7 @@ axios.get = jest.fn().mockResolvedValue({data: {"posts": { }}})
 axios.post = jest.fn().mockResolvedValue({});
 axios.put = jest.fn().mockResolvedValue();
 
-test('renderiza o login', () => {
-  
-  // Faz a requisição com um post mocado, para aparecer na tela
-  axios.get = jest.fn().mockResolvedValue({
-    data: { "posts": [ mockData ] } 
-  });
-  
-  // renderiza o componente pela rota
-  const history = createMemoryHistory()
-  const { getByText } = render(
-    <Router history={history}>
-      <App />
-    </Router>
-  )
-
-  // verifica se a palavra login aparece na tela, para se assegurar de que a tela não está em branco (ela deve estar no botão do header)
-  expect(getByText(/login/)).toBeInTheDocument();
-});
-
-test('Testa se após o usário se logar aparece o feed', async() => {
+test('Testa se aparece o formulário de login', async() => {
   
   // Faz a requisição com um post mocado, para aparecer na tela
   axios.get = jest.fn().mockResolvedValue({
@@ -68,12 +49,6 @@ test('Testa se após o usário se logar aparece o feed', async() => {
       <App />
     </Router>
   )
-  
-  // Procura a palavra login na tela (o RegEx /palavra/i procura a palavra em letra maiúscula ou minúscula)
-  expect(getByText(/login/i)).toBeInTheDocument();
-
-  // Simula o clique no botão usando a biblioteca userEvent (deve ser instalada)
-  userEvent.click(getByText(/login/i))
   
   // Verifica se apareceu a tela de login procurando o texto "Bem vindo..."
   expect(getByText(/Bem vindo ao 4eddit/)).toBeInTheDocument();

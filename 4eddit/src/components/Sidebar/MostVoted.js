@@ -19,7 +19,7 @@ const Sidebar = (props) => {
                 {mostVoted && mostVoted.map( (post, i) => {
                     if( i <= 11 ) {
                         return <Post key={post.id} onClick={() => props.goToPost(post.id)}>
-                            <h4>{post.title}</h4>
+                            <h4 data-testid="sidebar-votes">{post.title}</h4>
                             <h5>{post.username}</h5>
                             <p>{post.votesCount} votos</p>
                         </Post>

@@ -107,16 +107,16 @@ const FeedPage = () => {
                 return (
                     <Post key={post.id} data-testid='post'>
                         <VoteBtnContainer>
-                        <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "UP")}><ArrowUp voteDirection={post.userVoteDirection} /></VoteBtn>
-                            <span>{post.votesCount}</span>
-                            <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
+                        <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "UP")} data-testid='btn-up'><ArrowUp voteDirection={post.userVoteDirection} /></VoteBtn>
+                            <span data-testid="feed-votes">{post.votesCount}</span>
+                            <VoteBtn onClick={() => handleVote(post.id, post.userVoteDirection, "DOWN")} data-testid='btn-down'><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
                         </VoteBtnContainer>
                         <PostText>
                             <h5>{formatDate(post.createdAt)}</h5>
                             <h4>{post.username}</h4>
                             <h3  onClick={() => goToPost(post.id)}>{post.title}</h3>
                             <p  onClick={() => goToPost(post.id)}>{post.text}</p>
-                            <p  onClick={() => goToPost(post.id)}>{post.commentsCount} comentários</p>
+                            <p  onClick={() => goToPost(post.id)}  data-testid="feed-comments">{post.commentsCount} comentários</p>
                             <Share />
                         </PostText>
                     </Post>
