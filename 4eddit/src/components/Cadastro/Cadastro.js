@@ -14,7 +14,6 @@ const initialState = {
   status: 'UPDATE_VALUE'
 }
 
-
 const formReducer = (state, action) =>{
   switch(action.type) {
     case 'UPDATE_VALUE':
@@ -25,7 +24,6 @@ const formReducer = (state, action) =>{
         return state
   }
 }
-
 
 const Cadastro = () => {
     const [state, dispatch] = useReducer(formReducer, initialState)
