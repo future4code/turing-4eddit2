@@ -1,5 +1,5 @@
 import React from "react";
-import { render, wait } from "@testing-library/react";
+import { render, wait, getByTestId, findByText } from "@testing-library/react";
 import { createMemoryHistory  } from 'history';
 import "@testing-library/jest-dom/extend-expect";
 import FeedPage from "./FeedPage";
@@ -85,20 +85,20 @@ describe('O formulário cria um novo post e os posts publicados aparecem na pág
     expect(botaoPostar).toBeInTheDocument();
     
     // Verifica se foi feita a requisição de dados para a API com os dados simulados e o Feed aparece. Aqui, espera que a requisição tenha sido feita com a estrutura(baseUrl, axiosConfig)
-    expect(axios.get).toHaveBeenCalledWith(baseUrl, axiosConfig);
+    expect(axios.get).toHaveBeenCalledWith(baseUrl,  {
+      headers: {
+          Authorization: null,
+      }
+    });
 
     // Dá tempo para a resposta da API e busca os textos simulados em mockData, que foram enviados logo no início desse teste
     await wait(() => {
       expect(getByText('Nao quer atualizar')).toBeInTheDocument();
-      expect(getByText('feliperdi')).toBeInTheDocument();
     });
   })
+
   test('O formulário capta os valores dos inputs e envia um novo post, que aparece na tela imediatamente', async() => {
-    // Simula uma requisição do API que deve conter os dados simulados (guarados na const mockData)
-    axios.get = jest.fn().mockResolvedValue({ data:
-        mockData
-    });
-    
+    jest.setTimeout(30000);
     // Simula a renderização do componente independente da rota (url)
     const history = createMemoryHistory()
     const { getByPlaceholderText, getByText } = render(
@@ -129,38 +129,137 @@ describe('O formulário cria um novo post e os posts publicados aparecem na pág
             Authorization: null
         }
       })
-    },);
+    });
     
     // Verifica se aparece a mensagem de sucesso que deve aparecer após a execução da API, que tem o texto "Seu post foi publicado com sucesso"
     const postMesage = getByText('Seu post foi publicado com sucesso.')
     expect(postMesage).toBeInTheDocument();
 
-    // Simula uma requisição para atualizar os dados de requisição de posts da API, que, agora, deve conter o novo post
-    axios.get = jest.fn().mockResolvedValue({ data:{ "posts": [ ] }
+    await wait(() => {
+      axios.get = jest.fn().mockResolvedValue({ data:{ 'posts':[]} });
+    })
     
-    });
-
-    // erro: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Error:
     // await wait(() => {
     //   const novoPost = getByText('Um texto teste')
     //   expect(novoPost).toBeInTheDocument();
-      
-    //   expect(axios.get).toHaveBeenCalledTimes(2);
-    //   expect(input).toHaveValue('')
-    // }, 50000);
+    // })
     
+    // await wait(() => {
+    //   expect(axios.get).toHaveBeenCalled();
+    //   expect(titleInput).toHaveValue('')
+    //   expect(textInput).toHaveValue('')
+    // })
   })
 })
 
 
 describe('Interação com botões dos posts', () => {
-  test('As contagens de comentários e votos do post aparecem na tela', () => {
+  test('As contagens de comentários e votos do post aparecem na tela', async() => {
+    jest.setTimeout(30000);
     // Deve verificar se quando a tela é rendezida, o texto mocado em mockData com a contagem dos votos e dos comentários aparece na tela de forma correta.
+    axios.get = jest.fn().mockResolvedValue({ data:
+        mockData
+    })
+    
+    // Simula a renderização do componente independente da rota (url)
+    const history = createMemoryHistory()
+    const { getByTestId } = render(
+      <Router history={history}>
+        <FeedPage />
+      </Router>
+    )
+
+    await wait(() => {
+      const votes = getByTestId('feed-votes');
+      expect(votes).toBeInTheDocument();
+      
+      const comments = getByTestId('feed-comments');
+      expect(comments).toBeInTheDocument();
+    })
   })
-  test('Ao votar up, aumenta em 1 a contagem de votos', () => {
+  test('Ao votar up, aumenta em 1 a contagem de votos', async() => {
     // Deve verificar se, ao clicar no botão de voto up, a contagem - "votesCount": 45 - soma 1.
+    jest.setTimeout(30000);
+    // Deve verificar se quando a tela é rendezida, o texto mocado em mockData com a contagem dos votos e dos comentários aparece na tela de forma correta.
+    axios.get = jest.fn().mockResolvedValue({ data:
+        mockData
+    })
+    
+    axios.put = jest.fn().mockResolvedValue();
+    
+    // Simula a renderização do componente independente da rota (url)
+    const history = createMemoryHistory()
+    const { getByTestId, getByText } = render(
+      <Router history={history}>
+        <FeedPage />
+      </Router>
+    )
+
+    await wait(() => {
+      const voteUp = getByTestId('btn-up');
+      userEvent.click(voteUp)
+    });
+
+    await wait( () => {
+      expect(axios.put).toHaveBeenCalledWith(`${baseUrl}/2ju70ptY3CHbreXM34iA/vote`, {
+        direction: 1,
+      }, {
+        headers: {
+            Authorization: null
+        }
+      })
+    });
+
+    await wait(() => {
+      axios.get = jest.fn().mockResolvedValue()
+    })
+    
+    // await wait(() => {
+    //   const vote = getByText('9');
+    //   userEvent.click(vote)
+    // })
   })
-  test('Ao votar down, diminui em 1 a contagem de votos', () => {
+  test('Ao votar down, diminui em 1 a contagem de votos', async() => {
     // Deve verificar se, ao clicar no botão de voto down, a contagem - "votesCount": 45 - diminui 1.
+    // Deve verificar se, ao clicar no botão de voto up, a contagem - "votesCount": 45 - soma 1.
+    jest.setTimeout(30000);
+    // Deve verificar se quando a tela é rendezida, o texto mocado em mockData com a contagem dos votos e dos comentários aparece na tela de forma correta.
+    axios.get = jest.fn().mockResolvedValue({ data:
+        mockData
+    })
+    
+    axios.put = jest.fn().mockResolvedValue();
+    
+    // Simula a renderização do componente independente da rota (url)
+    const history = createMemoryHistory()
+    const { getByTestId, getByText } = render(
+      <Router history={history}>
+        <FeedPage />
+      </Router>
+    )
+
+    await wait(() => {
+      const voteDown = getByTestId('btn-down');
+      userEvent.click(voteDown)
+    });
+
+    await wait( () => {
+      expect(axios.put).toHaveBeenCalledWith(`${baseUrl}/2ju70ptY3CHbreXM34iA/vote`, {
+        direction: -1,
+      }, {
+        headers: {
+            Authorization: null
+        }
+      })
+    });
+
+    await wait(() => {
+      axios.get = jest.fn().mockResolvedValue()
+    })
+    
+    // await wait(() => {
+    //   const vote = getByText('7');
+    //   userEvent.click(vote)
+    // })
   })
 })

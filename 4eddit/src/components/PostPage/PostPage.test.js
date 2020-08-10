@@ -1,5 +1,5 @@
 import React from "react";
-import { render, wait } from "@testing-library/react";
+import { render, wait, getByPlaceholderText } from "@testing-library/react";
 import { createMemoryHistory  } from 'history';
 import "@testing-library/jest-dom/extend-expect";
 import PostPage from "./PostPage";
@@ -65,41 +65,130 @@ describe('Informações do post detalhado com os comentários, interação com b
       </Router>
     )
     
-    // Verifica se a página não foi redirecionada para o login. Não deve haver nenhum botão "entrar" na tela.
     const loginBtn = queryByText(/entrar/i);
     expect(loginBtn).not.toBeInTheDocument;
     
-    // Dá um tempo para a requisição da API e confere se ela realmente foi chamada
     await wait(() => {
       expect(axios.get).toHaveBeenCalled()
       expect(axios.get).toHaveBeenCalledWith(baseUrl, axiosConfig)
     });
 
-    // Confere se a tela está sendo renderizada da forma correta, com o container do post
     const post = getByTestId('post');
     expect(post).toBeInTheDocument();
 
-    // Aguarda a requisição da API e verifica se os dados mocados de detalhes do usuário (na constante mockData) aparecem na tela.
     await wait(() => {
       const tituloPost = getByText('Nao quer atualizar');
       expect(tituloPost).toBeInTheDocument();
     });
 
-    // Verifica se o container de comentários está sendo renderizado
     const comentarios = getByTestId('comentarios');
     expect(comentarios).toBeInTheDocument();
 
-    // Verifica se o comentário mocado na const mockData aparece na tela
     const umComentario = getByText('F5 :)');
     expect(umComentario).toBeInTheDocument();
   });
-  test('Ao votar up, aumenta em 1 a contagem de votos', () => {
-    // Deve verificar se, ao clicar no botão de voto up, a contagem - "votesCount": 45 - soma 1.
+  test('Ao votar up, aumenta em 1 a contagem de votos', async() => {
+        jest.setTimeout(30000);
+        axios.get = jest.fn().mockResolvedValue({ data:
+            mockData
+        })
+        
+        axios.put = jest.fn().mockResolvedValue();
+        
+        const history = createMemoryHistory()
+        const { getByTestId, getByText } = render(
+          <Router history={history}>
+            <PostPage />
+          </Router>
+        )
+    
+        await wait(() => {
+          const voteUp = getByTestId('btn-up');
+          userEvent.click(voteUp)
+        });
+    
+        await wait( () => {
+          expect(axios.put).toHaveBeenCalledWith(`${baseUrl}/vote`, {
+            direction: 1,
+          }, {
+            headers: {
+                Authorization: null
+            }
+          })
+        });
+    
+        await wait(() => {
+          axios.get = jest.fn().mockResolvedValue()
+        })
+        
   });
-  test('Ao votar down, diminui em 1 a contagem de votos', () => {
-    // Deve verificar se, ao clicar no botão de voto down, a contagem - "votesCount": 45 - diminui 1.
+  test('Ao votar down, diminui em 1 a contagem de votos', async() => {
+        jest.setTimeout(30000);
+        axios.get = jest.fn().mockResolvedValue({ data:
+            mockData
+        })
+        
+        axios.put = jest.fn().mockResolvedValue();
+        
+        const history = createMemoryHistory()
+        const { getByTestId, getByText } = render(
+          <Router history={history}>
+            <PostPage />
+          </Router>
+        )
+    
+        await wait(() => {
+          const voteDown = getByTestId('btn-down');
+          userEvent.click(voteDown)
+        });
+    
+        await wait( () => {
+          expect(axios.put).toHaveBeenCalledWith(`${baseUrl}/vote`, {
+            direction: -1,
+          }, {
+            headers: {
+                Authorization: null
+            }
+          })
+        });
+    
+        await wait(() => {
+          axios.get = jest.fn().mockResolvedValue()
+        })
+        
   });
-  test('O formulário capta os valores dos inputs e envia um novo comentário, que aparece na tela imediatamente', () => {
-    // Deve verificar se a requisição post é feita com dados guardados de input
+  test('O formulário capta os valores dos inputs e envia um novo comentário, que aparece na tela imediatamente', async() => {
+    jest.setTimeout(30000);
+
+    const history = createMemoryHistory()
+    const { getByText, getByPlaceholderText } = render(
+      <Router history={history}>
+        <PostPage />
+      </Router>
+    )
+    
+    const textInput = getByPlaceholderText(/Escreva seu comentário/i);
+    await userEvent.type(textInput, 'Oi, eu sou um comentário de teste')
+    
+    const commentBtn = getByText('Comentar');
+    userEvent.click(commentBtn)
+    
+    await wait( () => {
+      expect(axios.post).toHaveBeenCalledWith(`${baseUrl}/comment`, {
+        text: 'Oi, eu sou um comentário de teste'
+      }, {
+        headers: {
+            Authorization: null
+        }
+      })
+    });
+    
+    const postMesage = getByText('Seu comentário foi publicado com sucesso.')
+    expect(postMesage).toBeInTheDocument();
+
+    await wait(() => {
+      axios.get = jest.fn().mockResolvedValue({ data:{ 'post':{}} });
+    })
+    
   });
 })

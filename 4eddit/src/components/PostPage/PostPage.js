@@ -171,9 +171,9 @@ const PostPage = () => {
         <Header />
         {post.id === "" ? 'Carregando...' : <Post key={post.id}>
             <VoteBtnContainer>
-                <VoteBtn onClick={() => handleVotePost(post.id, post.userVoteDirection, "UP")}><ArrowUp voteDirection={post.userVoteDirection} /></VoteBtn>
+                <VoteBtn data-testid="btn-up" onClick={() => handleVotePost(post.id, post.userVoteDirection, "UP")}><ArrowUp voteDirection={post.userVoteDirection} /></VoteBtn>
                 <span>{post.votesCount}</span>
-                <VoteBtn onClick={() => handleVotePost(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
+                <VoteBtn data-testid="btn-down" onClick={() => handleVotePost(post.id, post.userVoteDirection, "DOWN")}><ArrowDown voteDirection={post.userVoteDirection}/></VoteBtn>
                 </VoteBtnContainer>
             <PostText>
                 <h4>{post.username}</h4>
@@ -189,8 +189,9 @@ const PostPage = () => {
                 name="text"
                 onChange={e => updateFieldValue(e.target.name, e.target.value)}
                 value={state.text}
+                placeholder="Escreva seu comentário"
             >
-                Escreva seu comentário
+                
             </textarea>
             <button 
                 type="Submit"

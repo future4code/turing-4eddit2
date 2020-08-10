@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import { useHistory } from 'react-router-dom';
 import useProtectRouter from '../../hooks/useProtectedRoute'
-import { HeaderContainer, Logo, SmallButton, SearchFilter, ResultsContainer, ResultsPost } from './styles';
+import { HeaderContainer, Logo, SmallButton, SearchFilter, ResultsContainer, ResultsPost, ResultsPostText } from './styles';
 import logo from '../../images/logo-reddit.png';
 
 
@@ -40,7 +40,7 @@ const Header = (props) => {
                     return <ResultsPost key={post.id}>
                             <h5>{post.username}</h5>
                             <h4>{post.title}</h4>
-                            <p>{post.text}</p>
+                            <ResultsPostText>{post.text}</ResultsPostText>
                             </ResultsPost>
                         }
                     
@@ -59,7 +59,7 @@ const Header = (props) => {
             <HeaderContainer>
                 <Logo src={logo} alt="Logo do site" onClick={goToHome}/>
                 <SearchFilter>
-                    <input value={searchInput} placeholder="Busca" onChange={handleChangeInput}></input>
+                    <input data-testid="search-input" value={searchInput} placeholder="Busca" onChange={handleChangeInput}></input>
                     <SmallButton>Buscar</SmallButton>
                     {handleLiveSearch()}
 

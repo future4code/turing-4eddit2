@@ -40,15 +40,23 @@ export const SearchFilter = styled.div `
 
 export const ResultsContainer = styled.div `
     width: 100%;
+    height: 500px;
     position: absolute;
     top: 56px;
     left: 0;
     padding: 16px;
     background-color: #fff;
+    overflow-y: scroll;
 `
 
 export const ResultsPost = styled.div `
     margin: 16px 0;
     padding-bottom: 8px;
     border-bottom: 1px solid #00497F;
+`
+
+export const ResultsPostText = styled.p `
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `
